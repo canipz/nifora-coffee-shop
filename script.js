@@ -715,9 +715,10 @@ updateCartUI();
         });
     }
 
-    // ==========================================
-    // 5. FITUR ULASAN PENGUNJUNG & FILTER RATING
-    // ==========================================
+   // ==========================================
+// 5. FITUR ULASAN PENGUNJUNG & FILTER RATING
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('add-review-form');
     const reviewsList = document.getElementById('reviews-list');
     const ratingFilterBtns = document.querySelectorAll('.filter-star-btn, .rating-filter-btn');
@@ -725,6 +726,17 @@ updateCartUI();
     let activeRatingFilter = 'all';
     let showAllReviews = false;
     const REVIEW_LIMIT = 6;
+
+    // Fungsi Pengaman untuk Mencegah Script Injection (XSS)
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
     const defaultReviews = [
         { id: 1, name: "fauzan ardian", rating: 5, comment: "sangat cocok untuk nongkrong" },
@@ -839,7 +851,7 @@ updateCartUI();
 
             btn.addEventListener('click', () => {
                 showAllReviews = !showAllReviews;
-                addClickAnimation(btn);
+                if (typeof addClickAnimation === 'function') addClickAnimation(btn);
                 renderReviews();
             });
         }
@@ -861,7 +873,7 @@ updateCartUI();
                 
                 ratingFilterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                addClickAnimation(btn);
+                if (typeof addClickAnimation === 'function') addClickAnimation(btn);
 
                 const targetRating = btn.getAttribute('data-rating');
                 if (targetRating) {
@@ -934,6 +946,7 @@ updateCartUI();
     }
 
     renderReviews();
+});
 
     // ==========================================
     // 6. FITUR STATUS BUKA/TUTUP TOKO (WIB Presisi)
