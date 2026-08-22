@@ -2768,3 +2768,23 @@ body.page-fading-out {
     padding: 15px;    /* Sediakan ruang agar teks paling atas/bawah tidak terpotong */
     min-height: 100px;
 }
+
+/* Pembungkus Utama Modal Keranjang */
+.cart-modal-content {
+    max-height: 90vh;        /* Batasi tinggi modal max 90% dari tinggi layar */
+    overflow-y: auto;        /* Aktifkan scrollbar vertikal saat konten lebih panjang */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Biarkan area item/form fleksibel agar scroll berjalan mulus */
+.cart-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cart-modal-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
