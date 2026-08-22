@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nifora coffee - Host an Event</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <!-- LOGO KIRI ATAS -->
+            <a href="index.html" class="logo">
+                <img src="image/logo nifora.png" alt="Logo Nifora Coffee" class="nav-logo-img">
+                <span>nifora coffee</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html" class="active">Host an Event</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                </ul>
+            </nav>
+            <a href="menu.html?mode=order" class="btn btn-primary">Order Online</a>
+        </div>
+    </header>
+
+    <!-- SECTION HOST AN EVENT -->
+    <section id="host-event" class="section-padding bg-alt">
+        <div class="container event-grid">
+            <div class="event-text">
+                <span class="sub-title">VENUE RESERVATION</span>
+                <h2>Host Your Event at nifora coffee</h2>
+                <p>Mencari tempat hangat dan nyaman untuk acara komunitas, ulang tahun, workshop, atau pertemuan bisnis? Kami menyediakan area fleksibel lengkap dengan fasilitas kopi dan hidangan.</p>
+                
+                <ul class="event-features">
+                    <li>✔ Kapasitas hingga 50-70 orang</li>
+                    <li>✔ Fasilitas Sound System & Proyektor</li>
+                    <li>✔ Pilihan Paket Catering & Special Coffee Bar</li>
+                </ul>
+
+                <a href="#contact-event" class="btn btn-primary" style="margin-top: 20px;">Ajukan Reservasi Tempat</a>
+            </div>
+
+            <div class="form-card" id="contact-event">
+                <h3>Formulir Sewa Tempat</h3>
+                <form id="event-form">
+                    <div class="form-group">
+                        <label for="event-name">Nama Lengkap</label>
+                        <input type="text" id="event-name" placeholder="Nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-contact">Email / WhatsApp</label>
+                        <input type="text" id="event-contact" placeholder="Kontak yang bisa dihubungi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-details">Jenis Acara & Tanggal</label>
+                        <input type="text" id="event-details" placeholder="Contoh: Workshop (15 Agustus)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-guests">Estimasi Jumlah Tamu</label>
+                        <input type="number" id="event-guests" placeholder="20" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Kirim via WhatsApp</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <!-- LOGO KIRI BAWAH -->
+            <div class="footer-about">
+                <a href="index.html" class="logo footer-logo-wrap">
+                    <img src="image/logo nifora.png" alt="Nifora Coffee Logo" class="footer-logo-img">
+                    <span>nifora coffee</span>
+                </a>
+                <p>Coffee, Community & Social Impact.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Kontak</h4>
+                <p>Email: chanifsehti@gmail.com</p>
+                <p>WA: +62 851-3662-9380</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 nifora coffee. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT HANDLER WHATSAPP RESERVASI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const eventForm = document.getElementById('event-form');
+
+            if (eventForm) {
+                eventForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const name = document.getElementById('event-name').value.trim();
+                    const contact = document.getElementById('event-contact').value.trim();
+                    const details = document.getElementById('event-details').value.trim();
+                    const guests = document.getElementById('event-guests').value.trim();
+
+                    const phoneNumber = "6285136629380";
+
+                    const message = `Halo Admin *nifora coffee*, saya ingin mengajukan reservasi tempat/acara dengan rincian berikut:
+
+📌 *NAMA*: ${name}
+📞 *KONTAK*: ${contact}
+🎉 *JENIS ACARA & TANGGAL*: ${details}
+👥 *ESTIMASI GUESTS*: ${guests} orang
+
+Apakah tempat tersedia untuk jadwal tersebut? Mohon informasi mengenai prosedur selanjutnya. Terima kasih!`;
+
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+                    window.open(whatsappURL, '_blank');
+                });
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

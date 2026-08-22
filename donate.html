@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nifora coffee - Pay It Forward</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Confetti Effect CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Logo Navbar & Footer Custom Styling - Ukuran Diperbesar */
+        .flex-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .nav-logo-img:hover {
+            transform: scale(1.05);
+        }
+        .footer-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        /* Modern Glassmorphism Overlay & Backdrop */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 10, 8, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Card Container Modern */
+        .qris-modal {
+            background: #ffffff;
+            border-radius: 28px;
+            max-width: 400px;
+            width: 100%;
+            padding: 28px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.35);
+            position: relative;
+            text-align: center;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .qris-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Timer Badge Soft */
+        .timer-badge {
+            background: #fdf8f6;
+            color: #8c533e;
+            border: 1px solid #f5e6e1;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .timer-badge span {
+            color: #c94a29;
+            font-weight: 700;
+        }
+
+        .modal-title {
+            font-family: var(--font-heading, 'Marcellus'), serif;
+            font-size: 1.4rem;
+            color: #2b1f1d;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .modal-subtitle {
+            font-size: 0.85rem;
+            color: #78716c;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* QRIS Image Frame Clean */
+        .qris-card-wrapper {
+            background: #fafaf9;
+            border: 1px solid #f5f5f4;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .qris-card-wrapper img {
+            width: 100%;
+            max-width: 210px;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .qris-card-wrapper img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Interactive Amount Copy Card */
+        .copy-amount-card {
+            background: #f5f5f4;
+            border: 1px solid #e7e5e4;
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+        .copy-amount-card:hover {
+            border-color: #d6d3d1;
+            background: #f0efe0;
+        }
+        .amount-info {
+            text-align: left;
+        }
+        .amount-label {
+            display: block;
+            font-size: 0.72rem;
+            color: #78716c;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .amount-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2b1f1d;
+            letter-spacing: -0.3px;
+        }
+
+        /* Copy Button */
+        .btn-copy-chip {
+            background: #2b1f1d;
+            color: #ffffff;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-copy-chip:hover {
+            background: #44322e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(43, 31, 29, 0.25);
+        }
+        .btn-copy-chip:active {
+            transform: translateY(0);
+        }
+
+        /* Feature Header Icon Styles */
+        .feature-header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2b1f1d;
+        }
+        .feature-icon-svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #8c533e;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        /* Checkbox Icon Container Alignment */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+            padding-left: 28px;
+            user-select: none;
+            font-weight: 500;
+            color: #44403c;
+        }
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0; width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 18px;
+            width: 18px;
+            background-color: #f5f5f4;
+            border: 1px solid #d6d3d1;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        .checkbox-container:hover input ~ .checkmark {
+            border-color: #8c533e;
+        }
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: #2b1f1d;
+            border-color: #2b1f1d;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 4px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Submit Button */
+        .btn-donate-submit {
+            background: #2b1f1d;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 16px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(43, 31, 29, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-donate-submit:hover {
+            background: #44322e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 31, 29, 0.3);
+        }
+
+        /* Main Action Buttons */
+        .btn-confirm-done {
+            background: #2b1f1d;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(43, 31, 29, 0.2);
+        }
+        .btn-confirm-done:hover {
+            background: #44322e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(43, 31, 29, 0.3);
+        }
+
+        .btn-cancel-pay {
+            background: transparent;
+            color: #a8a29e;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .btn-cancel-pay:hover {
+            color: #ef4444;
+        }
+
+        /* Thank You View */
+        .thank-you-box {
+            display: none;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .thank-you-box.active {
+            display: block;
+        }
+        .coffee-heart-icon {
+            font-size: 4rem;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: floatHeart 2.5s infinite ease-in-out;
+        }
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+
+        .btn-wa-optional {
+            background: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.92rem;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+            transition: all 0.2s ease;
+        }
+        .btn-wa-optional:hover {
+            background: #20bd5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+        }
+
+        .extra-input-field {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease-out;
+            margin-top: 0;
+        }
+        .extra-input-field.show {
+            max-height: 120px;
+            opacity: 1;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo flex-logo">
+                <img src="image/logo%20nifora.png" alt="Logo Nifora Coffee" class="nav-logo-img">
+                nifora coffee
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html" class="active">Donate</a></li>
+                </ul>
+            </nav>
+            <a href="menu.html?mode=order" class="btn btn-primary">Order Online</a>
+        </div>
+    </header>
+
+    <section id="donate" class="donate-section">
+        <div class="container donate-grid">
+            
+            <div class="donate-info">
+                <span class="sub-title">Pay It Forward • Coffee for a Neighbor</span>
+                <h2>Caffeinate with Compassion</h2>
+                <p>
+                    Daripada sekadar membeli kopi untuk diri sendiri, Anda juga bisa berbagi kebaikan. 
+                    Dengan fitur <em>pay it forward</em> ini, Anda dapat membelikan cangkir kopi bagi warga sekitar 
+                    yang membutuhkan. Terima kasih telah menjadi bagian dari komunitas kami.
+                </p>
+                <div class="donate-image">
+                    <img src="image/cwe%20barista.jpeg" alt="Coffee with Compassion">
+                </div>
+            </div>
+
+            <div class="donate-widget">
+                <!-- FITUR 1: HEADER NOMINAL -->
+                <div class="widget-header feature-header-title">
+                    <svg class="feature-icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    Pilih Nominal Donasi
+                </div>
+
+                <div class="amount-grid">
+                    <div class="amount-card active" data-amount="50000">
+                        <span class="amount-price">Rp 50.000</span>
+                        <span class="amount-desc">Menyediakan 2 cangkir kopi</span>
+                    </div>
+                    <div class="amount-card" data-amount="150000">
+                        <span class="amount-price">Rp 150.000</span>
+                        <span class="amount-desc">Menyediakan 6 cangkir kopi</span>
+                    </div>
+                    <div class="amount-card" data-amount="350000">
+                        <span class="amount-price">Rp 350.000</span>
+                        <span class="amount-desc">Menyediakan 15 cangkir kopi</span>
+                    </div>
+                </div>
+
+                <div class="custom-amount">
+                    <span class="currency-symbol">Rp</span>
+                    <input type="number" placeholder="Nominal Lain" id="other-amount" min="1000">
+                    <span class="currency-code">IDR</span>
+                </div>
+
+                <div class="donate-options-list">
+                    <!-- FITUR 2: CATATAN / PESAN -->
+                    <div class="option-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="toggle-note">
+                            <span class="checkmark"></span>
+                            <span class="feature-header-title">
+                                <svg class="feature-icon-svg" viewBox="0 0 24 24">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                Tambahkan catatan / komentar
+                            </span>
+                        </label>
+                        <div class="extra-input-field" id="note-field">
+                            <textarea id="donor-note" rows="3" placeholder="Tuliskan pesan atau doa hangat untuk penerima kopi..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- FITUR 3: DEDIKASI NAMA -->
+                    <div class="option-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="toggle-dedication">
+                            <span class="checkmark"></span>
+                            <span class="feature-header-title">
+                                <svg class="feature-icon-svg" viewBox="0 0 24 24">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Beri donasi atas nama seseorang
+                            </span>
+                        </label>
+                        <div class="extra-input-field" id="dedication-field">
+                            <input type="text" id="donor-dedication-name" placeholder="Masukkan nama seseorang (mis: Ibu Rahma)">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" id="btn-submit-donate" class="btn-donate-submit">
+                    <svg class="feature-icon-svg" style="stroke: #ffffff;" viewBox="0 0 24 24">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                    Lanjutkan Pembayaran
+                </button>
+
+                <div class="widget-footer">
+                    <span>☕ Powered by nifora Care</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL POP-UP QRIS ELEGANT -->
+    <div class="modal-overlay" id="qrisModal">
+        <div class="qris-modal">
+
+            <!-- STEP 1: PEMBAYARAN -->
+            <div id="step-qris">
+                <div class="timer-badge">
+                    ⏱️ Berakhir dalam <span id="timerDisplay">05:00</span>
+                </div>
+                
+                <h3 class="modal-title">
+                    <svg class="feature-icon-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px;">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    Pembayaran QRIS
+                </h3>
+                <p class="modal-subtitle">Scan via m-Banking, DANA, GoPay, OVO, ShopeePay</p>
+                
+                <div class="qris-card-wrapper">
+                    <img src="image/qris.jpg.jpeg" alt="QRIS nifora coffee">
+                </div>
+
+                <!-- Box Copy Nominal Minimalis -->
+                <div class="copy-amount-card">
+                    <div class="amount-info">
+                        <span class="amount-label">Nominal Transfer</span>
+                        <div class="amount-value" id="qrisAmountDisplay">Rp 50.000</div>
+                    </div>
+                    <button type="button" id="btnCopyAmount" class="btn-copy-chip">
+                        📋 Salin Nominal
+                    </button>
+                </div>
+
+                <button id="btnDonePayment" class="btn-confirm-done">
+                    Saya Sudah Transfer
+                </button> 
+                <button id="btnCancelPayment" class="btn-cancel-pay">
+                    Batalkan Pembayaran
+                </button>
+            </div>
+
+            <!-- STEP 2: UCAPAN TERIMA KASIH -->
+            <div id="step-thankyou" class="thank-you-box">
+                <div class="coffee-heart-icon">☕❤️</div>
+                <h3 class="modal-title">Terima Kasih Banyak!</h3>
+                <p class="modal-subtitle">
+                    Dukungan Anda sangat berarti. Setiap cangkir kopi yang Anda bagikan akan menghangatkan hari seseorang.
+                </p>
+
+                <a href="#" id="btnWaReceipt" target="_blank" class="btn-wa-optional">
+                    📱 Kirim Bukti Transfer via WA
+                </a>
+
+                <button id="btnCloseThankYou" class="btn-confirm-done" style="margin-top: 12px;">
+                    Selesai & Kembali
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <div class="footer-logo-wrap">
+                    <a href="index.html" class="logo footer-logo-wrap">
+                        <img src="image/logo nifora.png" alt="Nifora Coffee Logo" class="footer-logo-img">
+                        <span>nifora coffee</span>
+                    </a>
+                </div>
+                <p>Coffee, Community & Social Impact.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Kontak</h4>
+                <p>Email: chanifsehti@gmail.com</p>
+                <p>WA: +62 851-3662-9380</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 nifora coffee. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const amountCards = document.querySelectorAll('.amount-card');
+            const otherAmountInput = document.getElementById('other-amount');
+            const toggleNote = document.getElementById('toggle-note');
+            const noteField = document.getElementById('note-field');
+            const toggleDedication = document.getElementById('toggle-dedication');
+            const dedicationField = document.getElementById('dedication-field');
+            const btnSubmit = document.getElementById('btn-submit-donate');
+
+            const qrisModal = document.getElementById('qrisModal');
+            const qrisAmountDisplay = document.getElementById('qrisAmountDisplay');
+            const btnCopyAmount = document.getElementById('btnCopyAmount');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const stepQris = document.getElementById('step-qris');
+            const stepThankYou = document.getElementById('step-thankyou');
+            const btnDonePayment = document.getElementById('btnDonePayment');
+            const btnCancelPayment = document.getElementById('btnCancelPayment');
+            const btnWaReceipt = document.getElementById('btnWaReceipt');
+            const btnCloseThankYou = document.getElementById('btnCloseThankYou');
+
+            let selectedAmount = 50000;
+            let countdownInterval = null;
+            let timeLeft = 300; 
+
+            function startTimer() {
+                clearInterval(countdownInterval);
+                timeLeft = 300; 
+
+                countdownInterval = setInterval(() => {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+
+                    if (timerDisplay) {
+                        timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        alert('Waktu pembayaran telah habis (lebih dari 5 menit). Sesi donasi dibatalkan.');
+                        closeModal();
+                    }
+
+                    timeLeft--;
+                }, 1000);
+            }
+
+            function stopTimer() {
+                clearInterval(countdownInterval);
+            }
+
+            function closeModal() {
+                stopTimer();
+                if (qrisModal) qrisModal.classList.remove('active');
+            }
+
+            function triggerConfetti() {
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            }
+
+            amountCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    amountCards.forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    if (otherAmountInput) otherAmountInput.value = '';
+                    selectedAmount = parseInt(card.getAttribute('data-amount'), 10) || 0;
+                });
+            });
+
+            if (otherAmountInput) {
+                otherAmountInput.addEventListener('input', () => {
+                    const val = parseInt(otherAmountInput.value, 10);
+                    if (val > 0) {
+                        amountCards.forEach(c => c.classList.remove('active'));
+                        selectedAmount = val;
+                    } else if (otherAmountInput.value === '') {
+                        selectedAmount = 0;
+                    }
+                });
+            }
+
+            if (toggleNote && noteField) {
+                toggleNote.addEventListener('change', () => {
+                    noteField.classList.toggle('show', toggleNote.checked);
+                });
+            }
+
+            if (toggleDedication && dedicationField) {
+                toggleDedication.addEventListener('change', () => {
+                    dedicationField.classList.toggle('show', toggleDedication.checked);
+                });
+            }
+
+            // Salin Nominal
+            if (btnCopyAmount) {
+                btnCopyAmount.addEventListener('click', () => {
+                    const textToCopy = selectedAmount.toString();
+
+                    const copySuccess = () => {
+                        btnCopyAmount.innerHTML = '✔ Tersalin';
+                        btnCopyAmount.style.backgroundColor = '#16a34a';
+                        setTimeout(() => {
+                            btnCopyAmount.innerHTML = '📋 Salin Nominal';
+                            btnCopyAmount.style.backgroundColor = '#2b1f1d';
+                        }, 1800);
+                    };
+
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(textToCopy).then(copySuccess).catch(() => {
+                            alert('Nominal: Rp ' + selectedAmount.toLocaleString('id-ID'));
+                        });
+                    } else {
+                        const tempInput = document.createElement('input');
+                        tempInput.value = textToCopy;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        copySuccess();
+                    }
+                });
+            }
+
+            if (btnSubmit) {
+                btnSubmit.addEventListener('click', () => {
+                    if (!selectedAmount || selectedAmount <= 0) {
+                        alert('Silakan pilih atau masukkan nominal donasi terlebih dahulu.');
+                        return;
+                    }
+
+                    const formattedAmount = 'Rp ' + selectedAmount.toLocaleString('id-ID');
+                    if (qrisAmountDisplay) qrisAmountDisplay.innerText = formattedAmount;
+
+                    if (stepQris) stepQris.style.display = 'block';
+                    if (stepThankYou) stepThankYou.classList.remove('active');
+
+                    const donorNote = (toggleNote && toggleNote.checked) ? document.getElementById('donor-note').value.trim() : '';
+                    const dedicationName = (toggleDedication && toggleDedication.checked) ? document.getElementById('donor-dedication-name').value.trim() : '';
+
+                    const phoneAdmin = "6285136629380";
+                    let waMessage = `Halo Admin *nifora coffee*, saya telah melakukan donasi Pay It Forward via QRIS:\n\n`;
+                    waMessage += `💰 *Nominal Donasi*: ${formattedAmount}\n`;
+                    if (dedicationName) waMessage += `👤 *Atas Nama*: ${dedicationName}\n`;
+                    if (donorNote) waMessage += `💬 *Pesan/Doa*: "${donorNote}"\n`;
+                    waMessage += `\nBerikut bukti transfernya:`;
+
+                    if (btnWaReceipt) {
+                        btnWaReceipt.href = `https://wa.me/${phoneAdmin}?text=${encodeURIComponent(waMessage)}`;
+                    }
+
+                    if (qrisModal) qrisModal.classList.add('active');
+                    startTimer();
+                });
+            }
+
+            if (btnDonePayment) {
+                btnDonePayment.addEventListener('click', () => {
+                    stopTimer();
+                    if (stepQris) stepQris.style.display = 'none';
+                    if (stepThankYou) stepThankYou.classList.add('active');
+                    triggerConfetti();
+                });
+            }
+
+            if (btnCancelPayment) {
+                btnCancelPayment.addEventListener('click', () => {
+                    if (confirm('Apakah Anda yakin ingin membatalkan transaksi donasi ini?')) {
+                        closeModal();
+                    }
+                });
+            }
+
+            if (btnCloseThankYou) {
+                btnCloseThankYou.addEventListener('click', closeModal);
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

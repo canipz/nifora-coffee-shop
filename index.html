@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nifora coffee - Home</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Hubungkan CSS dengan Anti-Cache -->
+    <link rel="stylesheet" href="style.css?v=1.1">
+</head>
+<body>
+
+    <!-- SPLASH SCREEN / ANIMASI PEMBUKA (DIBUAT -> DIMINUM -> WELCOME) -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="story-animation-box">
+                <svg class="coffee-story-svg" viewBox="0 0 160 140" width="180" height="150">
+                    <!-- 1. ALAT SEDUH (Dripper) -->
+                    <g class="dripper-group">
+                        <path d="M 50,15 L 110,15 L 90,40 L 70,40 Z" fill="none" stroke="#D4A373" stroke-width="3" stroke-linejoin="round"/>
+                        <line x1="55" y1="15" x2="105" y2="15" stroke="#D4A373" stroke-width="2"/>
+                        <!-- Tetesan Kopi -->
+                        <circle class="coffee-drop" cx="80" cy="45" r="3" fill="#8B5A2B" />
+                    </g>
+
+                    <!-- 2. CANGKIR KOPI -->
+                    <g class="cup-group">
+                        <path d="M 60,65 L 100,65 L 95,100 C 95,105 65,105 65,100 Z" fill="none" stroke="#D4A373" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M 100,72 C 110,72 110,88 97,90" fill="none" stroke="#D4A373" stroke-width="3.5" stroke-linecap="round"/>
+                        <line x1="55" y1="107" x2="105" y2="107" stroke="#D4A373" stroke-width="3.5" stroke-linecap="round"/>
+                        
+                        <!-- Cairan Kopi Terisi -->
+                        <path class="coffee-liquid" d="M 62,70 L 98,70 L 95,98 C 95,102 65,102 65,98 Z" fill="#8B5A2B"/>
+                        
+                        <!-- Efek Kopi Diminum (Menyusut) -->
+                        <rect class="drink-mask" x="60" y="65" width="40" height="0" fill="#1b120e" />
+                    </g>
+
+                    <!-- 3. SILUET ORANG MEMINUM -->
+                    <g class="person-drinking-group">
+                        <circle cx="118" cy="48" r="14" fill="none" stroke="#E6CCB2" stroke-width="2.5"/>
+                        <path d="M 125,75 Q 115,70 102,78" fill="none" stroke="#E6CCB2" stroke-width="2.5" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- 4. UAP HANGAT KOPI -->
+                    <g class="steam-group">
+                        <path class="steam s-1" d="M 72,58 Q 75,50 72,43" fill="none" stroke="#E6CCB2" stroke-width="2" stroke-linecap="round"/>
+                        <path class="steam s-2" d="M 80,58 Q 83,48 80,40" fill="none" stroke="#E6CCB2" stroke-width="2" stroke-linecap="round"/>
+                        <path class="steam s-3" d="M 88,58 Q 91,50 88,43" fill="none" stroke="#E6CCB2" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Teks Tampilan Bertahap -->
+            <div class="splash-text-container">
+                <span class="status-badge" id="splash-status">Menyeduh Kopi...</span>
+                <h1 class="splash-welcome">Welcome to</h1>
+                <h2 class="splash-brand">nifora coffee</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigasi Utama -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <!-- LOGO NAVBAR (Atas Kiri) -->
+            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <img src="image/logo nifora.png" alt="Nifora Coffee Logo" style="height: 65px; width: auto; border-radius: 65%;">
+                <span style="font-family: 'Marcellus', serif; font-size: 1.8rem; font-weight: 700; color: #8B5A2B; letter-spacing: -0.5px;">nifora coffee</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                </ul>
+            </nav>
+            <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
+                <!-- Status Buka/Tutup Otomatis -->
+                <div class="store-status" id="storeStatus">
+                    <span class="status-dot"></span>
+                    <span id="statusText">Mengecek...</span>
+                </div>
+                <a href="menu.html?mode=order" class="btn btn-primary">Order Online</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: HERO HOME -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <span class="sub-title-hero">Locally-Owned Coffee Shop</span>
+                    <h1 class="hero-heading">Brewing Hope &<br>Great Coffee in<br>Every Cup</h1>
+                    <p class="hero-description">
+                        Sebuah tempat unik dan hangat — <strong>nifora coffee</strong> menghadirkan suasana nyaman untuk mempererat hubungan komunitas melalui <strong>kopi berkualitas, ruang kolaborasi</strong>, dan <strong>kebaikan bersama</strong>.
+                    </p>
+                    <p class="hero-hours"><strong>Buka 08.00 – 17.00 WIB (Senin – Sabtu)</strong></p>
+                    <div class="hero-buttons">
+                        <a href="menu.html?mode=order" class="btn-outline-dark">Order Ahead &rarr;</a>
+                        <a href="menu.html" class="btn-solid-dark">Our Menu &rarr;</a>
+                    </div>    
+                </div>
+                <div class="hero-right">
+                    <div class="watermark-logo">nifora coffee</div>
+                    <img src="image/kopiz.png" alt="White Coffee Cup" class="coffee-cup-img">
+                </div>
+            </div>
+        </div>
+        <div class="coffee-beans-bottom"></div>
+    </section>
+
+    <!-- SECTION 2: FEATURED SPECIAL -->
+    <section class="section-padding bg-alt">
+        <div class="container event-grid">
+            <div class="event-text">
+                <span class="sub-title">FEATURED SPECIAL</span>
+                <h2 style="font-family: var(--font-heading); font-size: 2.4rem; color: var(--primary-color); margin: 10px 0 20px;">Serving up Something for Everyone.</h2>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">
+                    Kami menyajikan lebih dari sekadar secangkir kopi. Dari espresso yang kaya rasa, latte yang lembut, hingga minuman spesial dengan sentuhan unik, setiap menu dibuat untuk memberikan pengalaman yang tak terlupakan. Lengkapi momen santaimu dengan pastry dan camilan pilihan.
+                </p>
+                <a href="menu.html?mode=order" class="btn-pickup">Start a Pickup Order &rarr;</a>
+            </div>
+            
+            <div class="card" style="max-width: 380px; margin: 0 auto;">
+                <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?q=80&w=500&auto=format&fit=crop" alt="Signature Latte" class="card-img">
+                <div class="card-body">
+                    <span class="card-tag">SIGNATURE</span>
+                    <div class="card-header-flex">
+                        <h3>The "nifora coffee" Cafe Latte</h3>
+                        <span class="price">Rp 29.000</span>
+                    </div>
+                    <p>Our strong latte with any available syrup. Caffeine Level: 100 mg. We got you.</p>
+                    <a href="menu.html?mode=order" class="btn-sm btn-primary btn-full">Order Ahead &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- SECTION 3: IMPACT -->
+<section class="impact-section">
+    <div class="container impact-grid">
+        <div class="impact-empty"></div>
+        <div class="impact-content">
+            <span class="sub-title" style="color: var(--accent-color);">Committed to Reinvesting in Community</span>
+            <h2>Stronger Connections Start Here.</h2>
+            <p>
+                Di balik setiap cangkir kopi yang kami sajikan, ada semangat pemberdayaan dan komunitas. Melalui program pelatihan dan kolaborasi lokal, kami ingin menciptakan ruang belajar dan berkembang bersama. <strong>We're brewing more than coffee—we're brewing confidence, purpose, and life skills.</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- BANNER SPIN REWARD -->
+<section class="fun-reward-section">
+    <div class="fun-reward-card">
+        <div class="fun-icon">☕✨</div>
+        <h2 class="fun-title">Main Sebentar, Dapat Kejutan!</h2>
+        <p class="fun-description">
+            Iseng-iseng berhadiah! Putar roda ramah Nifora untuk dapat bonus seru seperti diskon ringan atau free topping buat menemani kopi favoritmu hari ini.
+        </p>
+        <button id="openSpinModalBtn" class="btn-fun-spin">
+            🎯 Coba Putar Rodanya
+        </button>
+    </div>
+</section>
+
+<!-- MODAL SPIN WHEEL (WAJIB ADA) -->
+<div id="spinModal" class="spin-modal">
+    <div class="spin-modal-content">
+        <span class="close-spin">&times;</span>
+        <h2>Roda Keberuntungan Nifora ☕</h2>
+        <p>Masukkan Nomor WhatsApp lalu putar rodanya!</p>
+        
+        <div class="spin-form-group">
+            <input type="text" id="spinUserWa" placeholder="Nomor WhatsApp (misal: 08123456789)" required>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel-pointer">👇</div>
+            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        </div>
+
+        <button id="spinActionBtn" class="btn-spin-start">PUTAR RODA!</button>
+
+        <div id="spinResult" class="spin-result hidden">
+            <h3>Selamat! 🎉</h3>
+            <p id="spinRewardText"></p>
+            <div class="coupon-box">
+                <span id="couponCode"></span>
+            </div>
+            <button id="useCouponBtn" class="btn-use-coupon">Salin Kode Voucher</button>
+        </div>
+    </div>
+</div>
+
+//*bisa di hilangkan cuma tombol spin whell
+<button id="resetTestBtn" style="margin-top: 10px; background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+    🔄 Reset Limit Spin (Dev Test)
+</button>
+
+    <!-- SECTION 4: THE DRIP (BLOG ARTICLES) -->
+    <section class="drip-section">
+        <div class="drip-grid">
+            <div class="drip-card drip-card-1">
+                <span class="drip-tag">THE DRIP</span>
+                <h3>The Simple Joy of Coffee: More Than Just a Drink</h3>
+                <span class="drip-category">UNCATEGORIZED</span>
+                <p>Bagi banyak orang, kopi lebih dari sekadar minuman—ini adalah ritual, kenyamanan, dan penyemangat pagi hari. Dari aroma yang menyapa di pagi hari hingga obrolan hangat di kafe...</p>
+                <a href="#" class="btn-outline-light">READ MORE</a>
+            </div>
+
+            <div class="drip-card drip-card-2">
+                <span class="drip-tag">THE DRIP</span>
+                <h3>Why Morning People Have It Made (and How to Fake It...)</h3>
+                <span class="drip-category">COFFEE CULTURE, COFFEE SHOP LIFE</span>
+                <p>Pernah berpikir apa yang dikatakan pilihan kopi favoritmu tentang kepribadianmu? Apakah kamu pencinta Cold Brew yang tegas atau penggemar Cappuccino yang hangat? Mari kita bahas!</p>
+                <a href="#" class="btn-outline-light">READ MORE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: ULASAN PENGUNJUNG -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <div class="reviews-header-center">
+                <span class="sub-title">KATA MEREKA</span>
+                <h2>Ulasan Pengunjung</h2>
+                <p>Pengalaman para pengunjung saat menikmati kopi dan suasana di nifora coffee.</p>
+            </div>
+
+            <!-- Tombol Filter Rating Bintang -->
+            <div class="rating-filter-container">
+                <button class="filter-star-btn active" data-rating="all">Semua</button>
+                <button class="filter-star-btn" data-rating="5">⭐⭐⭐⭐⭐</button>
+                <button class="filter-star-btn" data-rating="4">⭐⭐⭐⭐</button>
+                <button class="filter-star-btn" data-rating="3">⭐⭐⭐</button>
+                <button class="filter-star-btn" data-rating="2">⭐⭐</button>
+                <button class="filter-star-btn" data-rating="1">⭐</button>
+            </div>
+
+            <!-- DAFTAR ULASAN -->
+            <div class="reviews-grid" id="reviews-list">
+                <!-- Ulasan akan dimuat otomatis oleh script.js -->
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 50px 0;">
+
+            <!-- FORM TULIS ULASAN -->
+            <div class="review-form-card">
+                <h3>Tulis Ulasan Anda</h3>
+                <form id="add-review-form">
+                    <div class="form-group">
+                        <label for="review-author">Nama Anda</label>
+                        <input type="text" id="review-author" placeholder="Contoh: Dimas Pratama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-rating">Rating</label>
+                        <select id="review-rating" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (5/5) - Sangat Memuaskan</option>
+                            <option value="4">⭐⭐⭐⭐ (4/5) - Bagus</option>
+                            <option value="3">⭐⭐⭐ (3/5) - Cukup</option>
+                            <option value="2">⭐⭐ (2/5) - Perlu Ditingkatkan</option>
+                            <option value="1">⭐ (1/5) - Kecewa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-text">Ulasan / Pesan</label>
+                        <textarea id="review-text" rows="3" placeholder="Ceritakan pengalaman Anda di nifora coffee..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-review">Kirim Ulasan</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <!-- LOGO FOOTER (Bawah Kiri) -->
+                <a href="index.html" class="footer-logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 12px;">
+                    <img src="image/logo nifora.png" alt="Nifora Coffee Logo" style="height: 58px; width: auto; border-radius: 58%;">
+                    <span style="font-family: 'Marcellus', serif; font-size: 1.6rem; font-weight: 700; color: #8B5A2B;">nifora coffee</span>
+                </a>
+                <p>nifora coffee<br>Email: chanifsehti@gmail.com<br>WA: +62 851-3662-9380</p>
+                <br>
+                <p><strong>Open Monday–Saturday</strong><br>08.00 – 17.00 WIB</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Full Menu</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html">Pay It Forward</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="menu.html?mode=order">Order Online</a></li>
+                    <li><a href="event.html">Host an Event</a></li>
+                    <li><a href="donate.html">Donate</a></li>
+                </ul>
+            </div>
+            <div class="footer-info">
+                <p>Bukan sekadar tempat minum kopi, nifora coffee adalah tempat di mana kopi berkualitas berpadu dengan kehangatan komunitas. Bergabunglah bersama kami—satu cangkir, satu cerita pada satu waktu.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 nifora coffee. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOGIK SPLASH SCREEN & STORE STATUS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Logika Splash Screen Animasi Kopi
+            const splashScreen = document.getElementById('splash-screen');
+            const splashStatus = document.getElementById('splash-status');
+
+            if (splashScreen && !sessionStorage.getItem('nifora_splash_shown')) {
+                // Babak 2: Kopi diminum seseorang (Detik ke-2)
+                setTimeout(() => {
+                    splashScreen.classList.add('drinking-active');
+                    if(splashStatus) splashStatus.textContent = "Menikmati Kopi...";
+                }, 2000);
+
+                // Babak 3: Teks Welcome & Brand muncul (Detik ke-3.8)
+                setTimeout(() => {
+                    splashScreen.classList.add('show-welcome');
+                    if(splashStatus) splashStatus.textContent = "Selamat Datang!";
+                }, 3800);
+
+                // Babak 4: Selesai & Masuk ke Halaman Utama (Detik ke-5.5)
+                setTimeout(() => {
+                    splashScreen.classList.add('fade-out');
+                    sessionStorage.setItem('nifora_splash_shown', 'true');
+                }, 5500);
+
+            } else if (splashScreen) {
+                // Sembunyikan langsung jika sudah pernah dibuka dalam sesi ini
+                splashScreen.style.display = 'none';
+            }
+
+            // 2. Logika Status Buka/Tutup Kedai
+            function updateStoreStatus() {
+                const statusDot = document.querySelector('#storeStatus .status-dot');
+                const statusText = document.getElementById('statusText');
+                
+                if (!statusText || !statusDot) return;
+
+                const now = new Date();
+                const day = now.getDay();
+                const hour = now.getHours();
+
+                const isOpenDay = day >= 1 && day <= 6; // Senin (1) - Sabtu (6)
+                const isOpenHour = hour >= 8 && hour < 17; // 08:00 - 17:00 WIB
+
+                if (isOpenDay && isOpenHour) {
+                    statusText.innerText = "Buka Sekarang";
+                    statusDot.style.backgroundColor = "#10b981";
+                } else {
+                    statusText.innerText = "Tutup";
+                    statusDot.style.backgroundColor = "#ef4444";
+                }
+            }
+
+            updateStoreStatus();
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
