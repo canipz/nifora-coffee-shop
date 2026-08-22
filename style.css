@@ -2660,6 +2660,52 @@ body.page-fading-out {
     font-size: 14px;
     text-align: center;
     outline: none;
+
+   /* ==========================================
+   PENYESUAIAN LAYAR HP (MOBILE RESPONSIVE)
+   ========================================== */
+@media screen and (max-width: 768px) {
+    /* 1. Atur Kontainer Utama & Margin Layar */
+    body {
+        font-size: 14px;
+    }
+    
+    .container, section {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    /* 2. Ubah Layout Grid (Drip/Blog & Ulasan) Menjadi 1 Kolom Vertikal */
+    .drip-grid, 
+    .reviews-grid, 
+    #reviews-list {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    /* 3. Optimasi Modal Keranjang & Spin Wheel untuk HP */
+    .cart-modal-content, 
+    .spin-modal-content {
+        width: 92% !important;
+        max-width: none !important;
+        padding: 15px !important;
+        margin: 10px auto;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    /* 4. Ukuran Canvas Spin Wheel Lebih Kecil di HP agar Tidak Geser */
+    #wheelCanvas {
+        width: 260px !important;
+        height: 260px !important;
+    }
+
+    /* 5. Ukuran Tombol & Input Pas di Jari */
+    button, .btn-spin-start, .btn-use-coupon, input {
+        font-size: 14px !important;
+        padding: 12px 16px !important;
+    }
+}
     box-sizing: border-box;
 }
 
