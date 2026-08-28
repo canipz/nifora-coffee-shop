@@ -64,31 +64,31 @@
     </div>
 
     <!-- Navigasi Utama -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <!-- LOGO NAVBAR (Atas Kiri) -->
-            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-                <img src="image/logo nifora.png" alt="Nifora Coffee Logo" style="height: 65px; width: auto; border-radius: 65%;">
-                <span style="font-family: 'Marcellus', serif; font-size: 1.8rem; font-weight: 700; color: #8B5A2B; letter-spacing: -0.5px;">nifora coffee</span>
-            </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="menu.html">Full Menu</a></li>
-                    <li><a href="event.html">Host an Event</a></li>
-                    <li><a href="donate.html">Donate</a></li>
-                </ul>
-            </nav>
-            <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
-                <!-- Status Buka/Tutup Otomatis -->
-                <div class="store-status" id="storeStatus">
-                    <span class="status-dot"></span>
-                    <span id="statusText">Mengecek...</span>
-                </div>
-                <a href="menu.html?mode=order" class="btn btn-primary">Order Online</a>
+<header class="navbar">
+    <div class="container nav-container">
+        <!-- LOGO NAVBAR -->
+        <a href="index.html" class="logo">
+            <img src="image/logo nifora.png" alt="Nifora Coffee Logo" class="nav-logo-img">
+            <span>nifora coffee</span>
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="menu.html">Full Menu</a></li>
+                <li><a href="event.html">Host an Event</a></li>
+                <li><a href="donate.html">Donate</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <!-- Status Buka/Tutup Otomatis -->
+            <div class="store-status" id="storeStatus">
+                <span class="status-dot"></span>
+                <span id="statusText">Mengecek...</span>
             </div>
+            <a href="menu.html?mode=order" class="btn btn-primary">Order Online</a>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- SECTION 1: HERO HOME -->
     <section class="hero-section">
@@ -199,11 +199,6 @@
     </div>
 </div>
 
-//*bisa di hilangkan cuma tombol spin whell
-<button id="resetTestBtn" style="margin-top: 10px; background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
-    🔄 Reset Limit Spin (Dev Test)
-</button>
-
     <!-- SECTION 4: THE DRIP (BLOG ARTICLES) -->
     <section class="drip-section">
         <div class="drip-grid">
@@ -225,59 +220,189 @@
         </div>
     </section>
 
-    <!-- SECTION 5: ULASAN PENGUNJUNG -->
-    <section id="reviews" class="reviews-section">
-        <div class="container">
-            <div class="reviews-header-center">
-                <span class="sub-title">KATA MEREKA</span>
-                <h2>Ulasan Pengunjung</h2>
-                <p>Pengalaman para pengunjung saat menikmati kopi dan suasana di nifora coffee.</p>
-            </div>
-
-            <!-- Tombol Filter Rating Bintang -->
-            <div class="rating-filter-container">
-                <button class="filter-star-btn active" data-rating="all">Semua</button>
-                <button class="filter-star-btn" data-rating="5">⭐⭐⭐⭐⭐</button>
-                <button class="filter-star-btn" data-rating="4">⭐⭐⭐⭐</button>
-                <button class="filter-star-btn" data-rating="3">⭐⭐⭐</button>
-                <button class="filter-star-btn" data-rating="2">⭐⭐</button>
-                <button class="filter-star-btn" data-rating="1">⭐</button>
-            </div>
-
-            <!-- DAFTAR ULASAN -->
-            <div class="reviews-grid" id="reviews-list">
-                <!-- Ulasan akan dimuat otomatis oleh script.js -->
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 50px 0;">
-
-            <!-- FORM TULIS ULASAN -->
-            <div class="review-form-card">
-                <h3>Tulis Ulasan Anda</h3>
-                <form id="add-review-form">
-                    <div class="form-group">
-                        <label for="review-author">Nama Anda</label>
-                        <input type="text" id="review-author" placeholder="Contoh: Dimas Pratama" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="review-rating">Rating</label>
-                        <select id="review-rating" required>
-                            <option value="5">⭐⭐⭐⭐⭐ (5/5) - Sangat Memuaskan</option>
-                            <option value="4">⭐⭐⭐⭐ (4/5) - Bagus</option>
-                            <option value="3">⭐⭐⭐ (3/5) - Cukup</option>
-                            <option value="2">⭐⭐ (2/5) - Perlu Ditingkatkan</option>
-                            <option value="1">⭐ (1/5) - Kecewa</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="review-text">Ulasan / Pesan</label>
-                        <textarea id="review-text" rows="3" placeholder="Ceritakan pengalaman Anda di nifora coffee..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit-review">Kirim Ulasan</button>
-                </form>
-            </div>
+<!-- SECTION ULASAN PENGUNJUNG (ONLINE & REALTIME) -->
+<section id="reviews" style="padding: 60px 0; background-color: #fcf9f5;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+        
+        <!-- Header Section -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <span style="color: #c48b5d; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; font-size: 14px;">KATA MEREKA</span>
+            <h2 style="color: #3d2b1f; font-size: 32px; margin: 10px 0;">Ulasan Pengunjung</h2>
+            <p style="color: #666;">Pengalaman para pengunjung saat menikmati kopi dan suasana di Nifora Coffee.</p>
         </div>
-    </section>
+
+        <!-- Form Tulis Ulasan -->
+        <div style="background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto 40px auto; border: 1px solid #eee;">
+            <h3 style="margin-top: 0; color: #3d2b1f; margin-bottom: 20px;">Tulis Ulasan Anda</h3>
+            <form id="add-review-form">
+                <div style="margin-bottom: 15px;">
+                    <label for="review-author" style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Nama Anda</label>
+                    <input type="text" id="review-author" placeholder="Masukkan nama Anda..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="review-rating" style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Rating</label>
+                    <select id="review-rating" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; background: white;">
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5) - Sangat Memuaskan</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5) - Bagus</option>
+                        <option value="3">⭐⭐⭐ (3/5) - Cukup</option>
+                        <option value="2">⭐⭐ (2/5) - Perlu Ditingkatkan</option>
+                        <option value="1">⭐ (1/5) - Kecewa</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="review-text" style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Ulasan / Pesan</label>
+                    <textarea id="review-text" rows="3" placeholder="Ceritakan pengalaman Anda..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;"></textarea>
+                </div>
+                <button type="submit" id="btn-submit" style="background: #3d2b1f; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Kirim Ulasan</button>
+            </form>
+        </div>
+
+        <!-- Filter Rating Bintang -->
+        <div id="filter-container" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;">
+            <button class="filter-btn active" data-rating="all" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #3d2b1f; background: #3d2b1f; color: white; cursor: pointer;">Semua</button>
+            <button class="filter-btn" data-rating="5" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #333; cursor: pointer;">⭐⭐⭐⭐⭐</button>
+            <button class="filter-btn" data-rating="4" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #333; cursor: pointer;">⭐⭐⭐⭐</button>
+            <button class="filter-btn" data-rating="3" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #333; cursor: pointer;">⭐⭐⭐</button>
+            <button class="filter-btn" data-rating="2" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #333; cursor: pointer;">⭐⭐</button>
+            <button class="filter-btn" data-rating="1" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #333; cursor: pointer;">⭐</button>
+        </div>
+
+        <!-- Container Tempat Ulasan Muncul -->
+        <div id="reviews-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+            <p style="grid-column: 1/-1; text-align: center; color: #777;">Memuat ulasan online...</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- SCRIPT FIREBASE SDK REALTIME -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  // Konfigurasi milik Nifora Coffee
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlU6XM5Lcu5khB4XyIxVJXhsAEmr3CSdQ",
+    authDomain: "nifora-coffee.firebaseapp.com",
+    databaseURL: "https://nifora-coffee-default-rtdb.firebaseio.com",
+    projectId: "nifora-coffee",
+    storageBucket: "nifora-coffee.firebasestorage.app",
+    messagingSenderId: "328577939768",
+    appId: "1:328577939768:web:6ad5cf791d939dac2aa9cd",
+    measurementId: "G-HLGSJ3GPZ8"
+  };
+
+  // Inisialisasi Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const reviewsRef = ref(db, 'reviews');
+
+  const reviewForm = document.getElementById('add-review-form');
+  const reviewsList = document.getElementById('reviews-list');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  let currentFilter = 'all';
+  let allReviewsData = [];
+
+  // Dengar data secara realtime
+  onValue(reviewsRef, (snapshot) => {
+    const data = snapshot.val();
+    allReviewsData = [];
+
+    if (data) {
+      Object.keys(data).forEach(key => {
+        allReviewsData.unshift({
+          id: key,
+          ...data[key]
+        });
+      });
+    }
+
+    renderReviews();
+  });
+
+  function renderReviews() {
+    if (!reviewsList) return;
+    reviewsList.innerHTML = '';
+
+    const filtered = currentFilter === 'all' 
+      ? allReviewsData 
+      : allReviewsData.filter(r => String(r.rating) === String(currentFilter));
+
+    if (filtered.length === 0) {
+      reviewsList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #777;">Belum ada ulasan untuk rating ini.</p>';
+      return;
+    }
+
+    filtered.forEach(item => {
+      const stars = '⭐'.repeat(parseInt(item.rating));
+      const card = document.createElement('div');
+      card.style.cssText = 'background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative;';
+      
+      card.innerHTML = `
+        <div style="color: #f39c12; margin-bottom: 10px;">${stars}</div>
+        <p style="color: #444; font-size: 14px; margin-bottom: 12px; line-height: 1.5;">"${escapeHTML(item.comment)}"</p>
+        <h4 style="color: #3d2b1f; margin: 0; font-size: 15px;">- ${escapeHTML(item.name)}</h4>
+      `;
+      reviewsList.appendChild(card);
+    });
+  }
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Kirim ulasan ke Firebase
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('review-author').value.trim();
+      const rating = parseInt(document.getElementById('review-rating').value);
+      const comment = document.getElementById('review-text').value.trim();
+
+      if (!name || !comment) return;
+
+      const btnSubmit = document.getElementById('btn-submit');
+      btnSubmit.disabled = true;
+      btnSubmit.innerText = 'Mengirim...';
+
+      push(reviewsRef, {
+        name: name,
+        rating: rating,
+        comment: comment,
+        timestamp: Date.now()
+      }).then(() => {
+        reviewForm.reset();
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = 'Kirim Ulasan';
+        alert('✨ Ulasan Anda berhasil terkirim dan dapat dilihat oleh semua orang!');
+      }).catch((err) => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerText = 'Kirim Ulasan';
+        alert('Gagal mengirim ulasan: ' + err.message);
+      });
+    });
+  }
+
+  // Filter Rating
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => {
+        b.style.background = 'white';
+        b.style.color = '#333';
+        b.style.borderColor = '#ccc';
+      });
+      this.style.background = '#3d2b1f';
+      this.style.color = 'white';
+      this.style.borderColor = '#3d2b1f';
+
+      currentFilter = this.getAttribute('data-rating');
+      renderReviews();
+    });
+  });
+</script>
 
     <!-- FOOTER -->
     <footer>
@@ -374,8 +499,9 @@
 
             updateStoreStatus();
         });
-    </script>
 
+    </script>
+    <!-- Pastikan nama file JS sudah benar -->
     <script src="script.js"></script>
 </body>
 </html>
