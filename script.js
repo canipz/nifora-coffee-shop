@@ -715,7 +715,7 @@ updateCartUI();
         });
     }
 
-   // ==========================================
+// ==========================================
 // 5. FITUR ULASAN PENGUNJUNG & FILTER RATING
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let showAllReviews = false;
     const REVIEW_LIMIT = 6;
 
-    // Fungsi Pengaman untuk Mencegah Script Injection (XSS)
+    // Helper sanitasi HTML (Mencegah XSS)
     function escapeHTML(str) {
         if (!str) return '';
         return String(str)
@@ -738,6 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/'/g, '&#039;');
     }
 
+    // Data Default Ulasan
     const defaultReviews = [
         { id: 1, name: "fauzan ardian", rating: 5, comment: "sangat cocok untuk nongkrong" },
         { id: 2, name: "irfan agung pratama", rating: 5, comment: "aku suka coffe shop ini cocok untuk nugas" },
@@ -749,12 +750,20 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const stored = localStorage.getItem('nifora_reviews');
             if (stored !== null) {
-                return JSON.parse(stored);
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return parsed;
+                }
             }
         } catch (error) {
             console.error("Gagal membaca LocalStorage:", error);
         }
-        localStorage.setItem('nifora_reviews', JSON.stringify(defaultReviews));
+        
+        try {
+            localStorage.setItem('nifora_reviews', JSON.stringify(defaultReviews));
+        } catch (e) {
+            console.error("Gagal menulis ke LocalStorage:", e);
+        }
         return defaultReviews;
     }
 
@@ -783,7 +792,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderReviews() {
-        if (!reviewsList) return;
+        if (!reviewsList) {
+            console.error("Elemen #reviews-list tidak ditemukan di HTML!");
+            return;
+        }
 
         const reviews = getStoredReviews();
         updateFilterCounts(reviews);
@@ -795,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : reviews.filter(r => parseInt(r.rating, 10) === parseInt(activeRatingFilter, 10));
 
         if (filteredReviews.length === 0) {
-            reviewsList.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #888; padding: 20px;">Belum ada ulasan untuk rating bintang ini.</p>';
+            reviewsList.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #888; padding: 20px;">Belum ada ulasan untuk rating ini.</p>';
             removeShowMoreButton();
             return;
         }
@@ -804,10 +816,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const htmlContent = reviewsToDisplay.map((item) => {
             const stars = '⭐'.repeat(parseInt(item.rating, 10));
+            const itemId = item.id ? String(item.id) : '';
             
             return `
                 <div class="testimonial-card review-card" data-rating="${item.rating}">
-                    <button type="button" class="delete-review-btn" data-id="${item.id || ''}" title="Hapus Ulasan">✕</button>
+                    <button type="button" class="delete-review-btn" data-id="${itemId}" title="Hapus Ulasan">✕</button>
                     <div class="stars review-stars">${stars}</div>
                     <p>"${escapeHTML(item.comment)}"</p>
                     <h4 class="review-author-name">- ${escapeHTML(item.name)}</h4>
@@ -830,20 +843,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn = document.createElement('button');
             btn.id = 'toggle-reviews-btn';
             btn.type = 'button';
-            btn.style.cssText = `
-                display: block;
-                margin: 25px auto 10px;
-                padding: 10px 24px;
-                background-color: #4a2c2a;
-                color: #ffffff;
-                border: none;
-                border-radius: 25px;
-                cursor: pointer;
-                font-weight: 600;
-                font-size: 14px;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            `;
             
             if (reviewsList.parentNode) {
                 reviewsList.parentNode.insertBefore(btn, reviewsList.nextSibling);
@@ -851,7 +850,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btn.addEventListener('click', () => {
                 showAllReviews = !showAllReviews;
-                if (typeof addClickAnimation === 'function') addClickAnimation(btn);
                 renderReviews();
             });
         }
@@ -870,10 +868,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ratingFilterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                
                 ratingFilterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                if (typeof addClickAnimation === 'function') addClickAnimation(btn);
 
                 const targetRating = btn.getAttribute('data-rating');
                 if (targetRating) {
@@ -896,7 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentReviews = currentReviews.filter(r => String(r.id) !== String(targetId));
                     } else {
                         const card = e.target.closest('.review-card');
-                        const name = card.querySelector('.review-author-name').innerText.replace('- ', '');
+                        const name = card.querySelector('.review-author-name').innerText.replace(/^- /, '');
                         const comment = card.querySelector('p').innerText.replace(/^"|"$/g, '');
                         const index = currentReviews.findIndex(r => r.name === name && r.comment === comment);
                         if (index !== -1) currentReviews.splice(index, 1);
@@ -922,29 +918,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const comment = textInput ? textInput.value.trim() : '';
 
             if (!name || !comment) {
-                alert('Silakan isi nama dan komentar terlebih dahulu.');
+                alert('Silakan isi nama dan ulasan terlebih dahulu.');
                 return;
             }
 
-            const newReview = { id: Date.now(), name, rating, comment };
+            const newReview = { 
+                id: Date.now(), 
+                name: name, 
+                rating: rating, 
+                comment: comment 
+            };
+
             const currentReviews = getStoredReviews();
             currentReviews.unshift(newReview); 
             
-            localStorage.setItem('nifora_reviews', JSON.stringify(currentReviews));
+            try {
+                localStorage.setItem('nifora_reviews', JSON.stringify(currentReviews));
+            } catch (err) {
+                console.error("Gagal menyimpan ulasan baru:", err);
+            }
 
             reviewForm.reset();
             activeRatingFilter = 'all'; 
-            showAllReviews = false;
+            showAllReviews = true;
             
             ratingFilterBtns.forEach(b => b.classList.remove('active'));
-            if (ratingFilterBtns[0]) ratingFilterBtns[0].classList.add('active');
+            const allBtn = document.querySelector('.filter-star-btn[data-rating="all"]');
+            if (allBtn) allBtn.classList.add('active');
 
             renderReviews();
-
-            alert('Terima kasih! Ulasan Anda berhasil ditambahkan.');
+            alert('✨ Ulasan Anda berhasil ditambahkan!');
         });
     }
 
+    // PAKSA JALANKAN RENDER
     renderReviews();
 });
 
