@@ -140,6 +140,73 @@ img {
 }
 
 /* ==========================================
+   MEDIA QUERY: TAMPILAN HP (Max 768px)
+   ========================================== */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 15px;
+  }
+
+  .nav-logo-img {
+    height: 50px;
+    width: 50px;
+  }
+
+  .logo span {
+    font-size: 1.4rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 15px;
+    padding: 0;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  #tab-order-online,
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.qris-modal {
+    width: 90%; /* Mengikuti lebar layar HP agar tidak sesak */
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .qris-card-wrapper img {
+    max-width: 170px; /* Ukuran QRIS disesuaikan untuk layar HP */
+  }
+
+  .copy-amount-card {
+    padding: 10px 12px;
+  }
+
+  .amount-value {
+    font-size: 1.05rem;
+  }
+
+  .btn-copy-chip {
+    padding: 7px 12px;
+    font-size: 0.75rem;
+  }
+
+
+/* ==========================================
    3. BUTTONS
    ========================================== */
 .btn {
@@ -2660,74 +2727,131 @@ body.page-fading-out {
     font-size: 14px;
     text-align: center;
     outline: none;
+    box-sizing: border-box;
+}
 
-  /* ==========================================
-   PENYESUAIAN LAYAR HP (MOBILE RESPONSIVE)
-   ========================================== */
-@media screen and (max-width: 768px) {
-    /* 1. Atur Kontainer Utama & Margin Layar */
-    body {
-        font-size: 14px;
-    }
-    
-    .container, section {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-    }
+.spin-form-group input:focus {
+    border-color: #e0a96d;
+}
 
-    /* 2. PAKSA NAVIGASI & MENU (Full Menu, Event, Donate) TERLIHAT DI HP */
-    .navbar, header nav, .nav-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-    }
+/* Area Roda Wheel */
+.wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px auto;
+}
 
-    .nav-links, .menu-links, .nav-menu, nav ul {
-        display: flex !important;
-        flex-direction: column !important; /* Susun menu dari atas ke bawah */
-        width: 100% !important;
-        padding: 10px 0 !important;
-        gap: 10px !important;
-        text-align: center !important;
-    }
+.wheel-pointer {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    z-index: 10;
+}
 
-    .nav-links a, .menu-links a, .nav-menu a, nav ul li a {
-        display: block !important;
-        padding: 8px 12px !important;
-        font-size: 15px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
+#wheelCanvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
 
-    /* 3. Ubah Layout Grid (Drip/Blog & Ulasan) Menjadi 1 Kolom Vertikal */
-    .drip-grid, 
-    .reviews-grid, 
-    #reviews-list {
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
+/* Tombol Putar Roda */
+.btn-spin-start {
+    background: #e0a96d;
+    color: #1a100c;
+    border: none;
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
 
-    /* 4. Optimasi Modal Keranjang & Spin Wheel untuk HP */
-    .cart-modal-content, 
-    .spin-modal-content {
-        width: 92% !important;
-        max-width: none !important;
-        padding: 15px !important;
-        margin: 10px auto;
-        max-height: 85vh;
-        overflow-y: auto;
-    }
+.btn-spin-start:hover {
+    background: #ffffff;
+    transform: scale(1.02);
+}
 
-    /* 5. Ukuran Canvas Spin Wheel Lebih Kecil di HP agar Tidak Geser */
-    #wheelCanvas {
-        width: 260px !important;
-        height: 260px !important;
-    }
+/* Hasil / Hadiah */
+.spin-result {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #4a332c;
+}
 
-    /* 6. Ukuran Tombol & Input Pas di Jari */
-    button, .btn-spin-start, .btn-use-coupon, input {
-        font-size: 14px !important;
-        padding: 12px 16px !important;
-    }
+.spin-result.hidden {
+    display: none;
+}
+
+.coupon-box {
+    background: #120a08;
+    border: 1px dashed #e0a96d;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-family: monospace;
+    font-size: 18px;
+    color: #e0a96d;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.btn-use-coupon {
+    background: transparent;
+    border: 1px solid #e0a96d;
+    color: #e0a96d;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-use-coupon:hover {
+    background: #e0a96d;
+    color: #1a100c;
+}
+
+
+/*keranjang
+/* Pembungkus Konten Modal */
+.cart-modal-content {
+    max-height: 85vh; /* Batasi maksimal tinggi 85% dari layar */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Mencegah modal meleber ke luar layar */
+}
+
+/* Bagian Isi List Keranjang (Elemen di bawah header) */
+#cart-items-list, 
+.cart-body {
+    flex-grow: 1;
+    overflow-y: auto; /* Aktifkan scroll vertikal jika item panjang */
+    padding: 15px;    /* Sediakan ruang agar teks paling atas/bawah tidak terpotong */
+    min-height: 100px;
+}
+
+/* Pembungkus Utama Modal Keranjang */
+.cart-modal-content {
+    max-height: 90vh;        /* Batasi tinggi modal max 90% dari tinggi layar */
+    overflow-y: auto;        /* Aktifkan scrollbar vertikal saat konten lebih panjang */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Biarkan area item/form fleksibel agar scroll berjalan mulus */
+.cart-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cart-modal-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
 }
