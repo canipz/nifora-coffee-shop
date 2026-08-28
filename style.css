@@ -140,71 +140,68 @@ img {
 }
 
 /* ==========================================
-   MEDIA QUERY: TAMPILAN HP (Max 768px)
+   MEDIA QUERY: FIX NAVBAR MOBILE (Max 768px)
    ========================================== */
 @media (max-width: 768px) {
   .nav-container {
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    gap: 12px;
     padding: 10px 15px;
   }
 
-  .nav-logo-img {
-    height: 50px;
-    width: 50px;
+  .logo {
+    justify-content: center;
   }
 
-  .logo span {
-    font-size: 1.4rem;
+  .nav-logo-img {
+    height: 48px;
+    width: 48px;
+  }
+
+  /* Menampilkan kembali daftar menu secara eksplisit */
+  .navbar nav {
+    width: 100%;
+    display: block !important;
   }
 
   .nav-links {
+    display: flex !important;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px 15px;
+    align-items: center;
+    gap: 8px 16px;
     padding: 0;
+    margin: 5px 0;
+    list-style: none;
   }
 
+  .nav-links a {
+    font-size: 0.88rem;
+    padding: 4px 6px;
+  }
+
+  /* Mengatur tata letak status dan tombol di bawah menu */
   .nav-right {
+    display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
     width: 100%;
+  }
+
+  .store-status {
+    margin-bottom: 2px;
   }
 
   #tab-order-online,
-  .btn-primary {
+  .navbar .btn-primary {
     width: 100%;
     text-align: center;
+    padding: 12px;
   }
 }
-
-.qris-modal {
-    width: 90%; /* Mengikuti lebar layar HP agar tidak sesak */
-    padding: 20px 16px;
-    border-radius: 20px;
-  }
-
-  .modal-title {
-    font-size: 1.2rem;
-  }
-
-  .qris-card-wrapper img {
-    max-width: 170px; /* Ukuran QRIS disesuaikan untuk layar HP */
-  }
-
-  .copy-amount-card {
-    padding: 10px 12px;
-  }
-
-  .amount-value {
-    font-size: 1.05rem;
-  }
-
-  .btn-copy-chip {
-    padding: 7px 12px;
-    font-size: 0.75rem;
-  }
-
 
 /* ==========================================
    3. BUTTONS
